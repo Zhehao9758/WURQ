@@ -4,17 +4,9 @@ interface ChartDataset {
   data: number[];
 }
 
-interface ExerciseData {
-
-}
-
-interface ChartData {
+interface DataStoreState {
   labels: number[];
   datasets: ChartDataset[];
-}
-
-interface DataStoreState {
-  chartData: ChartData;
   date_time: string;
   name: string;
   time: number;
@@ -26,7 +18,8 @@ interface DataStoreState {
 
 class DataStore {
   @observable data: DataStoreState = {
-    chartData: { labels: [], datasets: [] },
+    labels: [],
+    datasets: [],
     date_time: "",
     name: "",
     time: 0,
@@ -38,8 +31,8 @@ class DataStore {
 
   @action updateData(newData) {
     const n = newData.points_per_wod.length
-    this.data.chartData.labels = Array.from({ length: n }, (_, index) => index + 1);
-    this.data.chartData.datasets = [{ data: newData.points_per_wod }]
+    this.data.labels = Array.from({ length: n }, (_, index) => index + 1);
+    this.data.datasets = [{ data: newData.points_per_wod }]
     this.data.date_time = newData.history[0].date_time
     this.data.name = newData.history[0].name
     this.data.time = newData.history[0].time
